@@ -45,18 +45,11 @@ $(document).ready(function(){
 
 	$("#record").on('click', function(event){
 		event.preventDefault();
-		if(recognizing){
-			recognition.stop();
-			return;
-		}
 		console.log("start recognizing");
+		recognizing = true;
 		// set language to english US
 		recognition.lang = "en-US";
-		recognition.start()
-	})
-
-	$("#camera").on("click", function(event){
-		event.preventDefault();
+		recognition.start();
 
 		navigator.getUserMedia({audio:false, video:true}, function(stream){
 			var video = $("#video");
@@ -67,6 +60,45 @@ $(document).ready(function(){
 		})
 	})
 
+	$("body").on("click","#stopRecord", function(event){
+		event.preventDefault();
+
+		recognizing = false;
+		console.log("Show analyzing");
+
+		setTimeout(sendText, 2000);
+
+	})
+
+	function sendText(){
+		var text = span.html() || "no internett";
+
+		$.ajax({
+			"url":"http://localhost:3000/analyze",
+			"method": "POST",
+			"data":{"text":text}
+		})
+		.done(function(response){
+			console.log(response)
+			console.log("hide analyzing screen")
+		})
+		.error(function(response){
+			console.log("ERROR")
+		})
+	}
+
+	$("#video").on("loadedmetadata", function(){
+		console.log("loaded video");
+
+		console.log("start timer")
+	})
+
+	$("#camera").on("click", function(event){
+		event.preventDefault();
+
+		
+	})
+
 	/// FORMATTING ///
 
 	var two_line = /\n\n/g;
@@ -74,7 +106,6 @@ $(document).ready(function(){
 	function linebreak(s) {
   		return s.replace(two_line, '<p></p>').replace(one_line, '<br>');
 	}
-
 
 	//// INFO STUFF ////
 
