@@ -2,6 +2,9 @@ $(document).ready(function(){
 	console.log("ready")
 
 	var recognizing = false;
+	var final_transcript = '';
+	var span = $("#finalSpan")
+
 	navigator.getUserMedia = (navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia);
 
 	if(('webkitSpeechRecognition' in window)){
@@ -27,8 +30,13 @@ $(document).ready(function(){
 		recognition.onresult = function(event){
 			console.log("got some resullttt")
 			for(var i=event.resultIndex; i<event.results.length; ++i){
-				console.log(event.results[i][0].transcript)
+				if(event.results[i].isFinal){
+					final_transcript += event.results[i][0].transcript
+				}
 			}	
+
+			//$("#result").html(linebreak(final_transcript));
+			span.html(linebreak(final_transcript))
 		}
 	
 	} else {
@@ -59,12 +67,20 @@ $(document).ready(function(){
 		})
 	})
 
+	/// FORMATTING ///
+
+	var two_line = /\n\n/g;
+	var one_line = /\n/g;
+	function linebreak(s) {
+  		return s.replace(two_line, '<p></p>').replace(one_line, '<br>');
+	}
+
 
 	//// INFO STUFF ////
 
 	function upgrade(){
 		console.log("web speech not supported");
-		showInfo()
+		showInfo('')
 	}
 
 	function showInfo(info){
