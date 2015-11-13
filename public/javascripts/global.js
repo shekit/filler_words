@@ -2,6 +2,7 @@ $(document).ready(function(){
 	console.log("ready")
 
 	var recognizing = false;
+	navigator.getUserMedia = (navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia);
 
 	if(('webkitSpeechRecognition' in window)){
 		var recognition = new webkitSpeechRecognition();
@@ -45,5 +46,33 @@ $(document).ready(function(){
 		recognition.lang = "en-US";
 		recognition.start()
 	})
+
+	$("#camera").on("click", function(event){
+		event.preventDefault();
+
+		navigator.getUserMedia({audio:false, video:true}, function(stream){
+			var video = $("#video");
+			video.attr({'src':URL.createObjectURL(stream)})
+			console.log("GOT VIDEO")
+		}, function(error){
+			console.log(error)
+		})
+	})
+
+
+	//// INFO STUFF ////
+
+	function upgrade(){
+		console.log("web speech not supported");
+		showInfo()
+	}
+
+	function showInfo(info){
+		if(info){
+			console.log("have some info")
+		} else {
+			console.log("clear all info")
+		}
+	}
 
 })
