@@ -144,7 +144,7 @@ $(document).ready(function(){
 				time.minutes = mcount;
 				//console.log("MINUTES: " + time.minutes)
 			}
-			if(time.minutes%60==0){
+			if(time.minutes%60==0 && mcount>0){
 				time.seconds = 0;
 				time.minutes = 0;
 				var hcount = time.hours;
