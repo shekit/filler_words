@@ -71,7 +71,7 @@ $(document).ready(function(){
 	})
 
 	function sendText(){
-		var text = span.html() || "you know basically I like I mean to run away from everything. You know I mean I love you. It's hard what to do.";
+		var text = span.html() || "you know basically I like I mean literally literally literally literally to run away from everything. You know I mean I love you whatever whatever whatever. It's hard what to do.";
 
 		$.ajax({
 			"url":"http://localhost:3000/analyze",
@@ -79,13 +79,36 @@ $(document).ready(function(){
 			"data":{"text":text}
 		})
 		.done(function(response){
-			console.log(response)
+			//console.log(response)
+			console.log("display results");
 			console.log("hide analyzing screen")
+			displayResults(response);
 		})
 		.error(function(response){
 			console.log("ERROR")
 		})
 	}
+
+	function displayResults(data){
+
+		//arrange in descending order
+		var data = data.sort(function(a,b){
+			if(a.count>b.count){
+				return -1;
+			}
+
+			if(a.count < b.count){
+				return 1;
+			}
+
+			return 0
+		})
+
+		for (var i in data){
+			console.log("this is the word: " + data[i].word + " and this is its count: "+data[i].count)
+		}
+	}
+
 
 	$("#video").on("loadedmetadata", function(){
 		console.log("loaded video");

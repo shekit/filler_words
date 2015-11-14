@@ -7,6 +7,10 @@ var filler_words = [
 		"regex": /like/ig
 	},
 	{
+		"word":"ok",
+		"regex": /ok/ig
+	},
+	{
 		"word":"basically",
 		"regex": /basically/ig
 	},
@@ -25,6 +29,10 @@ var filler_words = [
 	{
 		"word":"stuff",
 		"regex": /stuff/ig
+	},
+	{
+		"word":"right",
+		"regex": /right/ig
 	},
 	{
 		"word":"you know",
