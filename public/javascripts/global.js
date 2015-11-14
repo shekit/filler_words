@@ -11,6 +11,8 @@ $(document).ready(function(){
 			"seconds":0
 		}
 
+	var speechLength = {}
+
 	var seconds = $("#seconds")
 	var minutes = $("#minutes")
 	var hours = $("#hours")
@@ -61,6 +63,7 @@ $(document).ready(function(){
 		recognition.lang = "en-US";
 		recognition.start();
 
+		//get camera access
 		navigator.getUserMedia({audio:false, video:true}, function(stream){
 			var video = $("#video");
 			video.attr({'src':URL.createObjectURL(stream)})
@@ -74,12 +77,22 @@ $(document).ready(function(){
 		event.preventDefault();
 
 		recognizing = false;
+		//trigger loading symbol
 		console.log("Show analyzing");
-
+		//make copy of time to show to person
+		speechLength = $.extend({}, time);
+		setTimeout(stopRecording, 1800);
+		// call after interval to ensure google speech has captured everything
 		setTimeout(sendText, 2000);
 
 	})
 
+	function stopRecording(){
+		resetTime();
+		recognition.stop();
+	}
+
+	//send for analysis
 	function sendText(){
 		var text = span.html() || "you know basically I like I mean literally literally literally literally to run away from everything. You know I mean I love you whatever whatever whatever. It's hard what to do.";
 
@@ -101,7 +114,7 @@ $(document).ready(function(){
 
 	function displayResults(data){
 
-		//arrange in descending order
+		//arrange results in descending order - most used word to least
 		var data = data.sort(function(a,b){
 			if(a.count > b.count){
 				return -1;
@@ -114,28 +127,29 @@ $(document).ready(function(){
 			return 0
 		})
 
+		//display it to screen
 		for (var i in data){
 			console.log("this is the word: " + data[i].word + " and this is its count: "+data[i].count)
 		}
 	}
 
-
+	// start timer once video has loaded
 	$("#video").on("loadedmetadata", function(){
 		console.log("loaded video");
-
-		console.log("start timer")
+		console.log("Start timer");
+		
+		startTimer();
+		displayTime();
 	})
 
 	$("#camera").on("click", function(event){
 		event.preventDefault();
-		seconds.show();
-		startTimer();
-		displayTime();
 	})
 
 	/// TIMER ///
 
 	function startTimer(){
+		seconds.show();
 
 		var timer = setInterval(function(){
 			var scount = time.seconds
@@ -190,7 +204,6 @@ $(document).ready(function(){
 				} else {
 					hours.html(hours.minutes)
 				}
-				
 			}
 		}, 1000)
 	}
