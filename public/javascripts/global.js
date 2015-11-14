@@ -82,22 +82,31 @@ $(document).ready(function(){
 
 		recognizing = false;
 		//trigger loading symbol
-		console.log("Show analyzing loader");
+		console.log("SHOW STOP SCREEN");
 		//make copy of time to show to person
 		speechLength = $.extend({}, time);
-		setTimeout(stopRecording, 3500);
+
+		setTimeout(showAnalyzingScreen,500);
+
 		// call after interval to ensure google speech has captured everything
-		setTimeout(sendText, 4000);
+		setTimeout(stopRecording, 3500);
+		setTimeout(sendText, 3600);
 
 	})
 
+	function showAnalyzingScreen(){
+		resetTime();
+		console.log("HIDE STOP SCREEN")
+		console.log("SHOW ANALYZING SCREEN")
+	}
+
 	function stopRecording(){
 		recognition.stop();
-		resetTime();
 	}
 
 	//send for analysis
 	function sendText(){
+		console.log("SEND TO SERVER")
 		console.log(final_transcript)
 		var text = final_transcript || "you know basically I like I mean literally literally literally literally to run away from everything. You know I mean I love you whatever whatever whatever. It's hard what to do.";
 
@@ -109,7 +118,7 @@ $(document).ready(function(){
 		.done(function(response){
 			console.log(response)
 			console.log("GOT RESULTS");
-			console.log("Hide Analyzing Loader")
+			console.log("HIDE ANALYZING SCREEN")
 			displayResults(response);
 		})
 		.error(function(response){
