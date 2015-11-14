@@ -4,6 +4,7 @@ $(document).ready(function(){
 	var recognizing = false;
 	var final_transcript = '';
 	var span = $("#finalSpan")
+	var videoStream = null;
 
 	var time = {
 			"hours":0,
@@ -70,6 +71,7 @@ $(document).ready(function(){
 		//get camera access
 		navigator.getUserMedia({audio:false, video:true}, function(stream){
 			var video = $("#video");
+			videoStream = stream;
 			video.attr({'src':URL.createObjectURL(stream)})
 			console.log("GET VIDEO")
 		}, function(error){
@@ -96,6 +98,8 @@ $(document).ready(function(){
 
 	function showAnalyzingScreen(){
 		resetTime();
+		videoStream.getTracks()[0].stop()
+		$("#video").fadeOut(400);
 		console.log("HIDE STOP SCREEN")
 		console.log("SHOW ANALYZING SCREEN")
 	}
