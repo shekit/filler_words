@@ -5,6 +5,12 @@ $(document).ready(function(){
 	var final_transcript = '';
 	var span = $("#finalSpan")
 
+	var time = {
+			"hours":0,
+			"minutes":0,
+			"seconds":0
+		}
+
 	navigator.getUserMedia = (navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia);
 
 	if(('webkitSpeechRecognition' in window)){
@@ -93,7 +99,7 @@ $(document).ready(function(){
 
 		//arrange in descending order
 		var data = data.sort(function(a,b){
-			if(a.count>b.count){
+			if(a.count > b.count){
 				return -1;
 			}
 
@@ -118,9 +124,45 @@ $(document).ready(function(){
 
 	$("#camera").on("click", function(event){
 		event.preventDefault();
-
+		startTimer()
 		
 	})
+
+	/// TIMER ///
+
+	function startTimer(){
+
+		var timer = setInterval(function(){
+			var scount = time.seconds
+			scount++;
+			time.seconds = scount;
+			//console.log("SECONDS: " + time.seconds)
+			if(time.seconds%60==0){
+				time.seconds = 0;
+				var mcount = time.minutes;
+				mcount++;
+				time.minutes = mcount;
+				//console.log("MINUTES: " + time.minutes)
+			}
+			if(time.minutes%60==0){
+				time.seconds = 0;
+				time.minutes = 0;
+				var hcount = time.hours;
+				hcount++;
+				time.hours = hcount;
+				//console.log("HOURS: " + time.hours)
+			}
+
+			console.log(time)
+		},1000)
+	}
+
+	function resetTime(){
+		clearInterval(timer)
+		time.seconds = 0;
+		time.minutes = 0;
+		time.hours = 0;
+	}
 
 	/// FORMATTING ///
 

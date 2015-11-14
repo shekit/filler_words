@@ -11,6 +11,10 @@ var filler_words = [
 		"regex": /ok/ig
 	},
 	{
+		"word":"actually",
+		"regex":/actually/ig
+	},
+	{
 		"word":"basically",
 		"regex": /basically/ig
 	},
@@ -38,7 +42,10 @@ var filler_words = [
 		"word":"you know",
 		"regex": /you\s+know/ig
 	},
-
+	{
+		"word":"i guess",
+		"regex": /i\s+guess/ig
+	},
 	{
 		"word":"having said that",
 		"regex": /having\s+said\s+that/ig
