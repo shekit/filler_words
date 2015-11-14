@@ -11,6 +11,10 @@ $(document).ready(function(){
 			"seconds":0
 		}
 
+	var seconds = $("#seconds")
+	var minutes = $("#minutes")
+	var hours = $("#hours")
+
 	navigator.getUserMedia = (navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia);
 
 	if(('webkitSpeechRecognition' in window)){
@@ -124,8 +128,9 @@ $(document).ready(function(){
 
 	$("#camera").on("click", function(event){
 		event.preventDefault();
-		startTimer()
-		
+		seconds.show();
+		startTimer();
+		displayTime();
 	})
 
 	/// TIMER ///
@@ -136,6 +141,7 @@ $(document).ready(function(){
 			var scount = time.seconds
 			scount++;
 			time.seconds = scount;
+			
 			//console.log("SECONDS: " + time.seconds)
 			if(time.seconds%60==0){
 				time.seconds = 0;
@@ -157,11 +163,50 @@ $(document).ready(function(){
 		},1000)
 	}
 
+	function displayTime(){
+		var displayTimer = setInterval(function(){
+
+			if(time.seconds<10){
+				seconds.html("0"+time.seconds)
+			} else {
+				seconds.html(time.seconds)
+			}
+			
+
+			if(time.minutes > 0 || time.hours > 0){
+				minutes.show();
+				if(time.minutes < 10){
+					minutes.html("0"+time.minutes)
+				}else {
+					minutes.html(time.minutes)
+				}
+				
+			}
+
+			if(time.hours > 0){
+				hours.show();
+				if(time.hours < 10){
+					hours.html("0"+hours.minutes)
+				} else {
+					hours.html(hours.minutes)
+				}
+				
+			}
+		}, 1000)
+	}
+
 	function resetTime(){
 		clearInterval(timer)
+		clearInterval(displayTimer)
 		time.seconds = 0;
 		time.minutes = 0;
 		time.hours = 0;
+		seconds.html(time.seconds)
+		minutes.html(time.minutes)
+		hours.html(time.hours)
+		seconds.hide()
+		minutes.hide()
+		hours.hide()
 	}
 
 	/// FORMATTING ///
