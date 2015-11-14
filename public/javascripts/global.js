@@ -13,6 +13,9 @@ $(document).ready(function(){
 
 	var speechLength = {}
 
+	var timer = null;
+	var displayTimer = null;
+
 	var seconds = $("#seconds")
 	var minutes = $("#minutes")
 	var hours = $("#hours")
@@ -88,8 +91,9 @@ $(document).ready(function(){
 	})
 
 	function stopRecording(){
-		resetTime();
+		
 		recognition.stop();
+		resetTime();
 	}
 
 	//send for analysis
@@ -151,7 +155,7 @@ $(document).ready(function(){
 	function startTimer(){
 		seconds.show();
 
-		var timer = setInterval(function(){
+		timer = setInterval(function(){
 			var scount = time.seconds
 			scount++;
 			time.seconds = scount;
@@ -178,7 +182,7 @@ $(document).ready(function(){
 	}
 
 	function displayTime(){
-		var displayTimer = setInterval(function(){
+		displayTimer = setInterval(function(){
 
 			if(time.seconds<10){
 				seconds.html("0"+time.seconds)
