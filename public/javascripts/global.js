@@ -29,21 +29,22 @@ $(document).ready(function(){
 		console.log("have web speech!")
 
 		recognition.onstart = function(){
-			console.log("starteddddd");
+			console.log("START AUDIO");
 			recognizing = true;
 		}
 
 		recognition.onerror = function(){
-			console.log("errrorrr")
+			console.log("ERROR IN AUDIO")
 		}
 
 		recognition.onend = function(){
-			console.log("stopppedd");
+			console.log("STOP AUDIO");
 			recognizing = false;
 		}
 
 		recognition.onresult = function(event){
-			console.log("got some resullttt")
+			console.log("GOT AUDIO RESULT")
+			//console.log(event.results[0][0].transcript)
 			for(var i=event.resultIndex; i<event.results.length; ++i){
 				if(event.results[i].isFinal){
 					final_transcript += event.results[i][0].transcript
@@ -51,7 +52,7 @@ $(document).ready(function(){
 			}	
 
 			//$("#result").html(linebreak(final_transcript));
-			span.html(linebreak(final_transcript))
+			//span.html(linebreak(final_transcript))
 		}
 	
 	} else {
@@ -60,7 +61,7 @@ $(document).ready(function(){
 
 	$("#record").on('click', function(event){
 		event.preventDefault();
-		console.log("start recognizing");
+		console.log("Start Recording");
 		recognizing = true;
 		// set language to english US
 		recognition.lang = "en-US";
@@ -70,7 +71,7 @@ $(document).ready(function(){
 		navigator.getUserMedia({audio:false, video:true}, function(stream){
 			var video = $("#video");
 			video.attr({'src':URL.createObjectURL(stream)})
-			console.log("GOT VIDEO")
+			console.log("GET VIDEO")
 		}, function(error){
 			console.log(error)
 		})
@@ -81,24 +82,24 @@ $(document).ready(function(){
 
 		recognizing = false;
 		//trigger loading symbol
-		console.log("Show analyzing");
+		console.log("Show analyzing loader");
 		//make copy of time to show to person
 		speechLength = $.extend({}, time);
-		setTimeout(stopRecording, 1800);
+		setTimeout(stopRecording, 3500);
 		// call after interval to ensure google speech has captured everything
-		setTimeout(sendText, 2000);
+		setTimeout(sendText, 4000);
 
 	})
 
 	function stopRecording(){
-		
 		recognition.stop();
 		resetTime();
 	}
 
 	//send for analysis
 	function sendText(){
-		var text = span.html() || "you know basically I like I mean literally literally literally literally to run away from everything. You know I mean I love you whatever whatever whatever. It's hard what to do.";
+		console.log(final_transcript)
+		var text = final_transcript || "you know basically I like I mean literally literally literally literally to run away from everything. You know I mean I love you whatever whatever whatever. It's hard what to do.";
 
 		$.ajax({
 			"url":"http://localhost:3000/analyze",
@@ -106,41 +107,45 @@ $(document).ready(function(){
 			"data":{"text":text}
 		})
 		.done(function(response){
-			//console.log(response)
-			console.log("display results");
-			console.log("hide analyzing screen")
+			console.log(response)
+			console.log("GOT RESULTS");
+			console.log("Hide Analyzing Loader")
 			displayResults(response);
 		})
 		.error(function(response){
-			console.log("ERROR")
+			console.log("Error in Analyzing")
 		})
 	}
 
 	function displayResults(data){
 
-		//arrange results in descending order - most used word to least
-		var data = data.sort(function(a,b){
-			if(a.count > b.count){
-				return -1;
+		if(data.length){
+			//arrange results in descending order - most used word to least
+			var data = data.sort(function(a,b){
+				if(a.count > b.count){
+					return -1;
+				}
+
+				if(a.count < b.count){
+					return 1;
+				}
+
+				return 0
+			})
+
+			//display it to screen
+			for (var i in data){
+				console.log("this is the word: " + data[i].word + " and this is its count: "+data[i].count)
 			}
-
-			if(a.count < b.count){
-				return 1;
-			}
-
-			return 0
-		})
-
-		//display it to screen
-		for (var i in data){
-			console.log("this is the word: " + data[i].word + " and this is its count: "+data[i].count)
+		} else {
+			console.log("YOU PERFECT")
 		}
 	}
 
 	// start timer once video has loaded
 	$("#video").on("loadedmetadata", function(){
-		console.log("loaded video");
-		console.log("Start timer");
+		console.log("GOT VIDEO");
+		console.log("START TIMER");
 		
 		startTimer();
 		displayTime();
@@ -213,6 +218,7 @@ $(document).ready(function(){
 	}
 
 	function resetTime(){
+		console.log("RESET TIMER")
 		clearInterval(timer)
 		clearInterval(displayTimer)
 		time.seconds = 0;
@@ -237,7 +243,7 @@ $(document).ready(function(){
 	//// INFO STUFF ////
 
 	function upgrade(){
-		console.log("web speech not supported");
+		console.log("Web speech not supported");
 		showInfo('')
 	}
 
