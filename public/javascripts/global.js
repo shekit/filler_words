@@ -71,7 +71,7 @@ $(document).ready(function(){
 	})
 
 	function sendText(){
-		var text = span.html() || "no internett";
+		var text = span.html() || "you know basically I like I mean to run away from everything. You know I mean I love you. It's hard what to do.";
 
 		$.ajax({
 			"url":"http://localhost:3000/analyze",
