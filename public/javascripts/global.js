@@ -59,6 +59,7 @@ $(document).ready(function(){
 	$("#record").on('click', function(event){
 		event.preventDefault();
 		console.log("Start Recording");
+		final_transcript = '';
 		// set language to english US
 		recognition.lang = "en-US";
 		recognition.start();
@@ -127,27 +128,29 @@ $(document).ready(function(){
 
 	function displayResults(data){
 
-		if(data.length){
-			//arrange results in descending order - most used word to least
-			var data = data.sort(function(a,b){
-				if(a.count > b.count){
-					return -1;
-				}
+		// if(data.length){
+		// 	//arrange results in descending order - most used word to least
+		// 	var data = data.sort(function(a,b){
+		// 		if(a.count > b.count){
+		// 			return -1;
+		// 		}
 
-				if(a.count < b.count){
-					return 1;
-				}
+		// 		if(a.count < b.count){
+		// 			return 1;
+		// 		}
 
-				return 0
-			})
+		// 		return 0
+		// 	})
 
-			//display it to screen
-			for (var i in data){
-				console.log("this is the word: " + data[i].word + " and this is its count: "+data[i].count)
-			}
-		} else {
-			console.log("YOU PERFECT")
-		}
+		// 	//display it to screen
+		// 	for (var i in data){
+		// 		console.log("this is the word: " + data[i].word + " and this is its count: "+data[i].count)
+		// 	}
+		// } else {
+		// 	console.log("YOU PERFECT")
+		// }
+		console.log("DISPLAY")
+		$("#results").append(data);
 	}
 
 	// start timer once video has loaded

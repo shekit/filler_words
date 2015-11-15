@@ -88,7 +88,12 @@ router.post('/analyze', function(req, res, next){
 	 	}
 	}
 
-	res.send(word_count);
+	if(word_count.length > 0){
+		res.render('result',{results:word_count});
+	} else {
+		res.render('noResult');
+	}
+	
 })
 
 module.exports = router;
