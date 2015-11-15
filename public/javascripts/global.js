@@ -65,6 +65,8 @@ $(document).ready(function(){
 		recognition.lang = "en-US";
 		recognition.start();
 
+		$(this).html("starting")
+
 		//get camera access
 		navigator.getUserMedia({audio:false, video:true}, function(stream){
 			var video = $("#video");
@@ -79,7 +81,7 @@ $(document).ready(function(){
 
 	$("body").on("click","#stopRecord", function(event){
 		event.preventDefault();
-
+		$(this).hide();
 		//trigger loading symbol
 		console.log("SHOW STOP SCREEN");
 		//make copy of time to show to person
@@ -128,28 +130,6 @@ $(document).ready(function(){
 	}
 
 	function displayResults(data){
-
-		// if(data.length){
-		// 	//arrange results in descending order - most used word to least
-		// 	var data = data.sort(function(a,b){
-		// 		if(a.count > b.count){
-		// 			return -1;
-		// 		}
-
-		// 		if(a.count < b.count){
-		// 			return 1;
-		// 		}
-
-		// 		return 0
-		// 	})
-
-		// 	//display it to screen
-		// 	for (var i in data){
-		// 		console.log("this is the word: " + data[i].word + " and this is its count: "+data[i].count)
-		// 	}
-		// } else {
-		// 	console.log("YOU PERFECT")
-		// }
 		console.log("DISPLAY")
 		$("#results").append(data);
 	}
@@ -158,8 +138,8 @@ $(document).ready(function(){
 	$("#video").on("loadedmetadata", function(){
 		console.log("GOT VIDEO");
 		console.log("START TIMER");
-		$("#record").fadeOut();
-		$("#stopRecord").fadeIn();
+		$("#record").fadeOut(200);
+		$("#stopRecord").fadeIn(200);
 		startTimer();
 		displayTime();
 	})

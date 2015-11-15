@@ -89,6 +89,21 @@ router.post('/analyze', function(req, res, next){
 	 	}
 	}
 
+	if(word_count.length){
+		//arrange results in descending order - most used word to least
+		word_count.sort(function(a,b){
+			if(a.count > b.count){
+				return -1;
+			}
+
+			if(a.count < b.count){
+				return 1;
+			}
+
+			return 0
+		})
+	}
+
 	//get date and write out speech to file
 	var date = new Date()
 	var writeToFile = date + "\n" + text + "\n\n";
