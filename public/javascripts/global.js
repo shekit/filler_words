@@ -57,7 +57,7 @@ $(document).ready(function(){
 		upgrade();
 	}
 
-	$("#record").on('click', function(event){
+	$("body").on('click',"#record", function(event){
 		event.preventDefault();
 		console.log("Start Recording");
 		final_transcript = '';
@@ -158,7 +158,8 @@ $(document).ready(function(){
 	$("#video").on("loadedmetadata", function(){
 		console.log("GOT VIDEO");
 		console.log("START TIMER");
-		
+		$("#record").fadeOut();
+		$("#stopRecord").fadeIn();
 		startTimer();
 		displayTime();
 	})

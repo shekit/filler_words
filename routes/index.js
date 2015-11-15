@@ -1,7 +1,6 @@
 var express = require('express');
 var router = express.Router();
 var fs = require('fs');
-var path = require('path')
 
 var filler_words = [
 	{
@@ -90,13 +89,12 @@ router.post('/analyze', function(req, res, next){
 	 	}
 	}
 
+	//get date and write out speech to file
 	var date = new Date()
 	var writeToFile = date + "\n" + text + "\n\n";
 	fs.appendFile('../speech-backups/speech.txt',writeToFile,function(err){
 		console.log(err)
 	})
-
-	//console.log(path.basename)
 
 	if(word_count.length > 0){
 		res.render('result',{results:word_count});

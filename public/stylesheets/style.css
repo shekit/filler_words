@@ -20,3 +20,7 @@ textarea {
 #seconds, #minutes, #hours {
 	display: none;
 }
+
+#stopRecord {
+	display: none;
+}
