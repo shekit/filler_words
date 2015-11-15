@@ -34,6 +34,7 @@ $(document).ready(function(){
 
 		recognition.onerror = function(){
 			console.log("ERROR IN AUDIO")
+			alert("Oops there was an error connecting in detecting your speech. Please reload and try again")
 		}
 
 		recognition.onend = function(){
@@ -250,8 +251,11 @@ $(document).ready(function(){
 
 	//// INFO STUFF ////
 
+	// download better browser notification
 	function upgrade(){
 		console.log("Web speech not supported");
+		$("#record").hide();
+		$("#stopRecord").hide();
 		showInfo('')
 	}
 
