@@ -3,6 +3,14 @@ var router = express.Router();
 
 var filler_words = [
 	{
+		"word":"um",
+		"regex": /mmm/ig
+	},
+	{
+		"word":"ah",
+		"regex":/ah/ig
+	},
+	{
 		"word":"like",
 		"regex": /like/ig
 	},

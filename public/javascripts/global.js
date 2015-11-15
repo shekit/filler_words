@@ -1,9 +1,8 @@
 $(document).ready(function(){
-	console.log("ready")
 
-	var recognizing = false;
+	// keep track of spoken 
 	var final_transcript = '';
-	var span = $("#finalSpan")
+
 	var videoStream = null;
 
 	var time = {
@@ -31,7 +30,6 @@ $(document).ready(function(){
 
 		recognition.onstart = function(){
 			console.log("START AUDIO");
-			recognizing = true;
 		}
 
 		recognition.onerror = function(){
@@ -40,7 +38,6 @@ $(document).ready(function(){
 
 		recognition.onend = function(){
 			console.log("STOP AUDIO");
-			recognizing = false;
 		}
 
 		recognition.onresult = function(event){
@@ -53,7 +50,6 @@ $(document).ready(function(){
 			}	
 
 			//$("#result").html(linebreak(final_transcript));
-			//span.html(linebreak(final_transcript))
 		}
 	
 	} else {
@@ -63,7 +59,6 @@ $(document).ready(function(){
 	$("#record").on('click', function(event){
 		event.preventDefault();
 		console.log("Start Recording");
-		recognizing = true;
 		// set language to english US
 		recognition.lang = "en-US";
 		recognition.start();
@@ -71,6 +66,7 @@ $(document).ready(function(){
 		//get camera access
 		navigator.getUserMedia({audio:false, video:true}, function(stream){
 			var video = $("#video");
+			video.fadeIn(200);
 			videoStream = stream;
 			video.attr({'src':URL.createObjectURL(stream)})
 			console.log("GET VIDEO")
@@ -82,7 +78,6 @@ $(document).ready(function(){
 	$("body").on("click","#stopRecord", function(event){
 		event.preventDefault();
 
-		recognizing = false;
 		//trigger loading symbol
 		console.log("SHOW STOP SCREEN");
 		//make copy of time to show to person
@@ -164,9 +159,6 @@ $(document).ready(function(){
 		displayTime();
 	})
 
-	$("#camera").on("click", function(event){
-		event.preventDefault();
-	})
 
 	/// TIMER ///
 
