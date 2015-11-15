@@ -4,64 +4,64 @@ var fs = require('fs');
 
 var filler_words = [
 	{
-		"word":"um",
+		"word":"Um",
 		"regex": /mmm/ig
 	},
 	{
-		"word":"ah",
+		"word":"Ah",
 		"regex":/ah/ig
 	},
 	{
-		"word":"like",
+		"word":"Like",
 		"regex": /like/ig
 	},
 	{
-		"word":"ok",
+		"word":"Ok",
 		"regex": /ok/ig
 	},
 	{
-		"word":"actually",
+		"word":"Actually",
 		"regex":/actually/ig
 	},
 	{
-		"word":"basically",
+		"word":"Basically",
 		"regex": /basically/ig
 	},
 	{
-		"word":"literally",
+		"word":"Literally",
 		"regex": /literally/ig
 	},
 	{
-		"word":"seriously",
+		"word":"Seriously",
 		"regex": /seriously/ig
 	},
 	{
-		"word":"whatever",
+		"word":"Whatever",
 		"regex": /whatever/ig
 	},
 	{
-		"word":"stuff",
+		"word":"Stuff",
 		"regex": /stuff/ig
 	},
 	{
-		"word":"right",
+		"word":"Right",
 		"regex": /right/ig
 	},
 	{
-		"word":"you know",
+		"word":"You know",
 		"regex": /you\s+know/ig
 	},
 	{
-		"word":"i guess",
+		"word":"I guess",
 		"regex": /i\s+guess/ig
 	},
 	{
-		"word":"having said that",
+		"word":"Having said that",
 		"regex": /having\s+said\s+that/ig
 	},
 
 	{
-		"word": "i mean",
+		"word": "I mean",
 		"regex": /i\s+mean/ig
 	}
 ]
