@@ -149,11 +149,12 @@ $(document).ready(function(){
 
 	//send for analysis
 	function sendText(){
-		console.log("SEND TO SERVER")
-		console.log(final_transcript)
-		var text = final_transcript; //|| "you know basically I like I mean literally literally literally literally to run away from everything. You know I mean I love you whatever whatever whatever. It's hard what to do.";
+		
+		//console.log(final_transcript)
+		var text = final_transcript;// || "you know basically I like I mean literally literally literally literally to run away from everything. You know I mean I love you whatever whatever whatever. It's hard what to do.";
 
 		if(text){
+			console.log("SEND TO SERVER")
 			$.ajax({
 				"url":"http://localhost:3000/analyze",
 				"method": "POST",
@@ -174,7 +175,7 @@ $(document).ready(function(){
 	}
 
 	function noTextDetected(){
-		console.log("Try saying something next time")
+		console.log("NO SPEECH DETECTED")
 	}
 
 	function displayResults(data){
@@ -213,7 +214,7 @@ $(document).ready(function(){
 				//console.log("HOURS: " + time.hours)
 			}
 
-			console.log(time)
+			//console.log(time)
 		},1000)
 	}
 
