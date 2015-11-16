@@ -63,6 +63,11 @@ var filler_words = [
 	{
 		"word": "I mean",
 		"regex": /i\s+mean/ig
+	},
+
+	{
+		"word": "Kind of",
+		"regex": /kind\s+of/ig
 	}
 ]
 
