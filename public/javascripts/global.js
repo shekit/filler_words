@@ -1,6 +1,6 @@
 $(document).ready(function(){
 
-	// keep track of spoken 
+	// keep track of spoken words
 	var final_transcript = '';
 
 	var videoStream = null;
@@ -11,6 +11,7 @@ $(document).ready(function(){
 			"seconds":0
 		}
 
+	//copy of speech length to display to user
 	var speechLength = {}
 
 	var timer = null;
@@ -34,7 +35,7 @@ $(document).ready(function(){
 
 		recognition.onerror = function(){
 			console.log("ERROR IN AUDIO")
-			alert("Oops there was an error connecting in detecting your speech. Please reload and try again")
+			alert("Oops there was an error in detecting your speech. Please reload and try again")
 		}
 
 		recognition.onend = function(){
@@ -61,13 +62,18 @@ $(document).ready(function(){
 
 	$("body").on('click',"#record", function(event){
 		event.preventDefault();
-		console.log("Start Recording");
+		console.log("START RECORDING");
+
+		//reset transcript
 		final_transcript = '';
-		// set language to english US
+
+		// set language to english US and start
 		recognition.lang = "en-US";
 		recognition.start();
 
+		// change icon to indicate its starting up
 		$(this).html("starting")
+		console.log("STARTING RECORDING")
 
 		//get camera access
 		navigator.getUserMedia({audio:false, video:true}, function(stream){
@@ -77,8 +83,19 @@ $(document).ready(function(){
 			video.attr({'src':URL.createObjectURL(stream)})
 			console.log("GET VIDEO")
 		}, function(error){
+			alert("Error accessing your camera. Please reload and allow access.")
 			console.log(error)
 		})
+	})
+
+	// start timer once video has loaded
+	$("#video").on("loadedmetadata", function(){
+		console.log("GOT VIDEO");
+		console.log("START TIMER");
+		$("#record").hide();
+		$("#stopRecord").fadeIn(200);
+		startTimer();
+		displayTime();
 	})
 
 	//// STOP RECORD /////
@@ -134,22 +151,30 @@ $(document).ready(function(){
 	function sendText(){
 		console.log("SEND TO SERVER")
 		console.log(final_transcript)
-		var text = final_transcript || "you know basically I like I mean literally literally literally literally to run away from everything. You know I mean I love you whatever whatever whatever. It's hard what to do.";
+		var text = final_transcript; //|| "you know basically I like I mean literally literally literally literally to run away from everything. You know I mean I love you whatever whatever whatever. It's hard what to do.";
 
-		$.ajax({
-			"url":"http://localhost:3000/analyze",
-			"method": "POST",
-			"data":{"text":text}
-		})
-		.done(function(response){
-			console.log(response)
-			console.log("GOT RESULTS");
-			console.log("HIDE ANALYZING SCREEN")
-			displayResults(response);
-		})
-		.error(function(response){
-			console.log("Error in Analyzing")
-		})
+		if(text){
+			$.ajax({
+				"url":"http://localhost:3000/analyze",
+				"method": "POST",
+				"data":{"text":text}
+			})
+			.done(function(response){
+				console.log(response)
+				console.log("GOT RESULTS");
+				console.log("HIDE ANALYZING SCREEN")
+				displayResults(response);
+			})
+			.error(function(response){
+				console.log("Error in Analyzing")
+			})
+		} else {
+			noTextDetected();
+		}
+	}
+
+	function noTextDetected(){
+		console.log("Try saying something next time")
 	}
 
 	function displayResults(data){
@@ -158,15 +183,7 @@ $(document).ready(function(){
 		$("#results").append(data);
 	}
 
-	// start timer once video has loaded
-	$("#video").on("loadedmetadata", function(){
-		console.log("GOT VIDEO");
-		console.log("START TIMER");
-		$("#record").hide();
-		$("#stopRecord").fadeIn(200);
-		startTimer();
-		displayTime();
-	})
+	
 
 
 	/// TIMER ///
