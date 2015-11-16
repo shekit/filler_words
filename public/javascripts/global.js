@@ -57,6 +57,8 @@ $(document).ready(function(){
 		upgrade();
 	}
 
+	/// RECORD /////
+
 	$("body").on('click',"#record", function(event){
 		event.preventDefault();
 		console.log("Start Recording");
@@ -79,6 +81,7 @@ $(document).ready(function(){
 		})
 	})
 
+	//// STOP RECORD /////
 	$("body").on("click","#stopRecord", function(event){
 		event.preventDefault();
 		$(this).hide();
@@ -107,6 +110,26 @@ $(document).ready(function(){
 		recognition.stop();
 	}
 
+	function showTotalSpeechTime(){
+		console.log("displayin time")
+		var displayHour = speechLength.hours>0 ? speechLength.hours : 0;
+		var displayMinute = padTime(speechLength.minutes)
+		var displaySeconds = padTime(speechLength.seconds)
+
+		console.log(displayHour+":"+displayMinute+":"+displaySeconds)
+	}
+
+	function padTime(t){
+		if(t>0 && t<10){
+			t = "0"+t
+		} else if(t==0){
+			t = "00"
+		} else {
+			t = t
+		}
+		return t
+	}
+
 	//send for analysis
 	function sendText(){
 		console.log("SEND TO SERVER")
@@ -131,6 +154,7 @@ $(document).ready(function(){
 
 	function displayResults(data){
 		console.log("DISPLAY")
+		showTotalSpeechTime();
 		$("#results").append(data);
 	}
 
@@ -138,7 +162,7 @@ $(document).ready(function(){
 	$("#video").on("loadedmetadata", function(){
 		console.log("GOT VIDEO");
 		console.log("START TIMER");
-		$("#record").fadeOut(200);
+		$("#record").hide();
 		$("#stopRecord").fadeIn(200);
 		startTimer();
 		displayTime();
