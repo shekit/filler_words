@@ -3,6 +3,7 @@ $(document).ready(function(){
 	// keep track of spoken words
 	var final_transcript = '';
 
+	//allow user to see themselves speak
 	var videoStream = null;
 
 	var time = {
