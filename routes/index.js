@@ -117,7 +117,7 @@ router.post('/analyze', function(req, res, next){
 	})
 
 	if(word_count.length > 0){
-		res.render('result',{results:word_count});
+		res.render('result',{results:word_count,transcript:text});
 	} else {
 		res.render('noResult');
 	}
