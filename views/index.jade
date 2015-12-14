@@ -1,15 +1,39 @@
 extends layout
 
 block content
-  h1 Speak Now
-  h1
-    span(id="hours") 00
-    span(id="minutes") 00
-    span(id="seconds") 00
-  p or forever be like, you know, seriously whatever
-  div(id='recordDiv')
-    a(href="#",id='record') Record
-    a(href="#", id='stopRecord') Stop Record
-  div(id='cameraDiv')
-    video(id='video',autoplay,muted='true')
-  div(id='results')
+  div(class='loading')
+    h3 Analyzing your speech...
+  div(class='container-fixed')
+    div(class='row text-center title-div')
+      div(class='col-md-2')
+      div(class='col-md-8')
+        h1
+          img(src='/images/logo.png', width='300')
+        p(class='subtext') Speak now or forever be like, you know, seriously whatever
+      div(class='col-md-2')
+    div(class='row text-center recording')
+      div(class='col-md-2')
+      div(class='col-md-8', id='recordDiv')
+        a(href="#",id='record')
+          img(src='/images/record.png')
+        h4(class='starting text-center') Starting...
+      div(class='col-md-2')
+    div(class='row text-center', id='timer-control')
+      div(class='col-md-2')
+      div(class='col-md-8')
+        div(class='timer')
+          span(id="hours") 00
+          span(id="minutes") 00
+          span(id="seconds") 00
+        a(href="#", id='stopRecord')
+          img(src='/images/stoprecord.png', width='100')
+      div(class='col-md-2')
+    div(class='row text-center')
+      div(class='col-md-3')
+      div(class='col-md-6')
+        div(id='results')
+      div(class='col-md-3')
+    div(class='row no-margin')
+      div(id='cameraDiv')
+        video(id='video',autoplay,muted='true')
+      

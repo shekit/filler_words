@@ -1,5 +1,6 @@
-ul
+ul(class='list-unstyled')
   each val in results
-    li!= val.word + " : " + val.count
+    li!= "<span class='filler-word'>" + val.word + "</span>" + "          " + val.count
 
-p!= transcript
+h3 Your Transcript
+p(class='transcript')!= transcript

@@ -73,7 +73,8 @@ $(document).ready(function(){
 		recognition.start();
 
 		// change icon to indicate its starting up
-		$(this).html("starting")
+		$(this).hide();
+		$(".starting").show();
 		console.log("STARTING RECORDING")
 
 		//get camera access
@@ -93,7 +94,8 @@ $(document).ready(function(){
 	$("#video").on("loadedmetadata", function(){
 		console.log("GOT VIDEO");
 		console.log("START TIMER");
-		$("#record").hide();
+		$(".starting").hide();
+		$(".title-div").hide();
 		$("#stopRecord").fadeIn(200);
 		startTimer();
 		displayTime();
@@ -105,11 +107,12 @@ $(document).ready(function(){
 		$(this).hide();
 		//trigger loading symbol
 		console.log("SHOW STOP SCREEN");
+		$(".loading").show();
 		//make copy of time to show to person
 		speechLength = $.extend({}, time);
 
 		setTimeout(showAnalyzingScreen,500);
-
+		$(".recording").hide();
 		// call after interval to ensure google speech has captured everything
 		setTimeout(stopRecording, 3500);
 		setTimeout(sendText, 3600);
@@ -120,8 +123,10 @@ $(document).ready(function(){
 		resetTime();
 		videoStream.getTracks()[0].stop()
 		$("#video").fadeOut(400);
+		$(".title-div").fadeIn(400);
 		console.log("HIDE STOP SCREEN")
 		console.log("SHOW ANALYZING SCREEN")
+
 	}
 
 	function stopRecording(){
@@ -151,7 +156,7 @@ $(document).ready(function(){
 	//send for analysis
 	function sendText(){
 		
-		//console.log(final_transcript)
+		console.log(final_transcript)
 		var text = final_transcript;// || "you know basically I like I mean literally literally literally literally to run away from everything. You know I mean I love you whatever whatever whatever. It's hard what to do.";
 
 		if(text){
@@ -164,10 +169,13 @@ $(document).ready(function(){
 			.done(function(response){
 				console.log(response)
 				console.log("GOT RESULTS");
-				console.log("HIDE ANALYZING SCREEN")
+				console.log("HIDE ANALYZING SCREEN");
+				$(".loading").hide();
 				displayResults(response);
 			})
 			.error(function(response){
+				alert("There was an error in analyzing your speech. Try again")
+				$(".loading").hide();
 				console.log("Error in Analyzing")
 			})
 		} else {
